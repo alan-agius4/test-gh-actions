@@ -1,0 +1,23 @@
+name: Build PUSH only
+on:
+  push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+        SHA: ${{ github.sha }}
+        REPO: ${{ github.repository }}
+        BRANCH: ${{ github.ref_name }}
+    steps:
+    - name: Checkout the PR
+      uses: actions/checkout@v3
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Install Angular CLI
+      run: npm install --location=global @angular/cli@14.0.0
+    - name: Install packages
+      run: npm install
+    - name: Run tests
+      run: ng test --no-watch --no-progress --watch=false --code-coverage --browsers=ChromeHeadlessCI

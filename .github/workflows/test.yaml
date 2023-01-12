@@ -15,9 +15,13 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 16
+    - name: Install Azure CLI
+      run: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
     - name: Install Angular CLI
       run: npm install --location=global @angular/cli@14.0.0
     - name: Install packages
       run: npm install
+    - name: Build the UI
+      run: ng build -c production
     - name: Run tests
       run: ng test --no-watch --no-progress --watch=false --code-coverage --browsers=ChromeHeadlessCI
